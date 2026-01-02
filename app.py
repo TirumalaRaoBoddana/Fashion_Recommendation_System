@@ -9,6 +9,8 @@ from tensorflow.keras.layers import GlobalAveragePooling2D
 from tensorflow.keras.models import Model
 from PIL import Image
 import warnings
+import os
+import gdown
 warnings.filterwarnings("ignore")
 
 # ------------------ Model ------------------
@@ -28,6 +30,20 @@ def load_feature_extractor():
     )
     return model
 
+@st.cache_data(show_spinner="Downloading model files...")
+def download_files_from_gdrive():
+    files = {
+        "image_embeddings.npy": "1nhCTqucTDy110lC4Q83CwSuPdntxgqao",
+        "image_names.npy": "1JS69UFzyrfOZoJZZO8drWf7vRNNtsxmc",
+        "mapped_meta_data.csv": "196qOZUTwERTp9c3XRl3avfZn73-AshMh",
+        "knn_model.joblib": "1iSC-lVUAqSKp4s_fWSMcfF5NX7MfvHRd",
+    }
+
+    for filename, file_id in files.items():
+        if not os.path.exists(filename):
+            url = f"https://drive.google.com/uc?id={file_id}"
+            gdown.download(url, filename, quiet=False)
+
 
 def extract_image_embedding(pil_image, model):
     img = pil_image.resize((224, 224))
@@ -39,16 +55,17 @@ def extract_image_embedding(pil_image, model):
     embedding = embedding / np.linalg.norm(embedding)
     return embedding  
 
-
-
 @st.cache_resource
 def load_data():
+    download_files_from_gdrive()
+
     image_embeddings = np.load("image_embeddings.npy")
     image_names = np.load("image_names.npy", allow_pickle=True)
     meta_data = pd.read_csv("mapped_meta_data.csv")
     knn = joblib.load("knn_model.joblib")
 
     return image_embeddings, image_names, meta_data, knn
+
 
 def predict_info_from_neighbors(top_indices, metadata):
     top_genders = metadata.iloc[top_indices]["gender"]
