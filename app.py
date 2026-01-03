@@ -34,7 +34,7 @@ def load_feature_extractor():
 def download_files_from_gdrive():
     files = {
         # "image_embeddings.npy": "1nhCTqucTDy110lC4Q83CwSuPdntxgqao",
-        "image_names.npy": "1xV1PQ6JN2eGf7xI8VLMoRuEeiYzrVIPz",
+        "image_names_clean.npy": "1xV1PQ6JN2eGf7xI8VLMoRuEeiYzrVIPz",
         "mapped_meta_data.csv": "196qOZUTwERTp9c3XRl3avfZn73-AshMh",
         "knn_model.joblib": "1iSC-lVUAqSKp4s_fWSMcfF5NX7MfvHRd",
     }
@@ -184,6 +184,7 @@ if __name__ == "__main__":
         st.subheader("Recommended Products")
 
         display_cards(recommendations, cards_per_row=5)
+
 
 
 
