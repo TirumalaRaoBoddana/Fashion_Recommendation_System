@@ -69,7 +69,7 @@ def load_data():
     meta_data = pd.read_csv("mapped_meta_data.csv")
     meta_data["image_name"] = meta_data["image_name"].astype(str)
     knn = joblib.load("knn_model.joblib")
-    return image_embeddings, image_names, meta_data, knn
+    return  image_names, meta_data, knn
 
 
 def predict_info_from_neighbors(top_indices, metadata):
@@ -159,7 +159,7 @@ if __name__ == "__main__":
     st.title("👗 Fashion Recommendation System")
 
     feature_extractor = load_feature_extractor()
-    image_embeddings, image_names, meta_data, knn = load_data()
+    image_names, meta_data, knn = load_data()
 
     uploaded_file = st.file_uploader(
         "Upload a fashion product image",
@@ -184,6 +184,7 @@ if __name__ == "__main__":
         st.subheader("Recommended Products")
 
         display_cards(recommendations, cards_per_row=5)
+
 
 
 
