@@ -63,8 +63,6 @@ def load_data():
         image_names = np.load("image_names.npy", allow_pickle=True).astype(str)
     except Exception as e:
         st.error(f"Loading failed: {e}. Regenerating compatible data...")
-        # Regenerate locally with current numpy version
-        regenerate_data()
         image_embeddings = np.load("image_embeddings.npy", allow_pickle=True)
         image_names = np.load("image_names.npy", allow_pickle=True).astype(str)
     
@@ -186,5 +184,6 @@ if __name__ == "__main__":
         st.subheader("Recommended Products")
 
         display_cards(recommendations, cards_per_row=5)
+
 
 
