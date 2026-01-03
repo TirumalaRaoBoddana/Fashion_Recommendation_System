@@ -33,8 +33,8 @@ def load_feature_extractor():
 @st.cache_data(show_spinner="Downloading model files...")
 def download_files_from_gdrive():
     files = {
-        "image_embeddings.npy": "1nhCTqucTDy110lC4Q83CwSuPdntxgqao",
-        "image_names.npy": "1JS69UFzyrfOZoJZZO8drWf7vRNNtsxmc",
+        # "image_embeddings.npy": "1nhCTqucTDy110lC4Q83CwSuPdntxgqao",
+        "image_names.npy": "1xV1PQ6JN2eGf7xI8VLMoRuEeiYzrVIPz",
         "mapped_meta_data.csv": "196qOZUTwERTp9c3XRl3avfZn73-AshMh",
         "knn_model.joblib": "1iSC-lVUAqSKp4s_fWSMcfF5NX7MfvHRd",
     }
@@ -59,12 +59,12 @@ def extract_image_embedding(pil_image, model):
 def load_data():
     try:
         download_files_from_gdrive()
-        image_embeddings = np.load("image_embeddings.npy", allow_pickle=True)
-        image_names = np.load("image_names.npy", allow_pickle=True).astype(str)
+        # image_embeddings = np.load("image_embeddings.npy", allow_pickle=True)
+        image_names = np.load("image_names.npy")
     except Exception as e:
         st.error(f"Loading failed: {e}. Regenerating compatible data...")
-        image_embeddings = np.load("image_embeddings.npy", allow_pickle=True)
-        image_names = np.load("image_names.npy", allow_pickle=True).astype(str)
+        # image_embeddings = np.load("image_embeddings.npy", allow_pickle=True)
+        # image_names = np.load("image_names.npy", allow_pickle=True).astype(str)
     
     meta_data = pd.read_csv("mapped_meta_data.csv")
     meta_data["image_name"] = meta_data["image_name"].astype(str)
@@ -184,6 +184,7 @@ if __name__ == "__main__":
         st.subheader("Recommended Products")
 
         display_cards(recommendations, cards_per_row=5)
+
 
 
 
