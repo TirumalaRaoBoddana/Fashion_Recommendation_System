@@ -60,7 +60,7 @@ def load_data():
     try:
         download_files_from_gdrive()
         # image_embeddings = np.load("image_embeddings.npy", allow_pickle=True)
-        image_names = np.load("image_names.npy")
+        image_names = np.load("image_names_clean.npy")
     except Exception as e:
         st.error(f"Loading failed: {e}. Regenerating compatible data...")
         # image_embeddings = np.load("image_embeddings.npy", allow_pickle=True)
@@ -184,6 +184,7 @@ if __name__ == "__main__":
         st.subheader("Recommended Products")
 
         display_cards(recommendations, cards_per_row=5)
+
 
 
 
